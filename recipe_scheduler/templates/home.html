@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div>
+        <a class="foodlegend foodkind-0">Breakfast</a>
+        <a class="foodlegend foodkind-1">Lunch</a>
+        <a class="foodlegend foodkind-2">Dinner</a>
+    </div>
+    <div class="calendar-title">
+{#
+        <a href="{{ url_for('main.month_view', year=context.month_previous.year,
+        month=context.month_previous.month)}}"> << </a>
+        {{ context.month_current.month}} / {{ context.month_current.year }}
+        <a href="{{ url_for('main.month_view', year=context.month_next.year,
+        month=context.month_next.month)}}"> >> </a>
+#}
+        <a href="{{ url_for('main.home', year=context.month_previous.year,
+        month=context.month_previous.month)}}"> << </a>
+        {{ context.month_current.month}} / {{ context.month_current.year }}
+        <a href="{{ url_for('main.home', year=context.month_next.year,
+        month=context.month_next.month)}}"> >> </a>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            {% for w in context.week_names %}
+                <th>{{ w }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for week in context.month_day_schedulers %}
+
+            <tr class="rowcell">
+                {% for day, schedules in week.items() %}
+                    {% if context.now == day %}
+                        <td class="table-success">
+                            {% else %}
+                        <td>
+                    {% endif %}
+                <div class="gridcell">
+<!--                    <a class="nav-item nav-link calendar_day" href="{{ url_for('categories.show_categories') }}">{{ day.day }} </a>-->
+                    <a class="nav-item nav-link calendar_day" href="{{ url_for('events.new_event', day=day) }}">{{ day.day }} </a>
+                    {% for cat, recipe in schedules.items() %}
+
+                        {% if recipe[0] %}
+{#
+                        <input type="button" class="foodcell foodkind-{{cat}}" onclick="window.location.href='{{
+                        url_for('categories.show_recipe',
+                        recipe_id=recipe[0].id,
+                        category_id=recipe[0].category_id)}}'" value="{{ recipe[0].recipe_name }} ">
+
+                        <a class="btn foodcell foodkind-{{cat}}" href=" {{ url_for('categories.show_recipe',
+                        recipe_id=recipe[0].id,
+                        category_id=recipe[0].category_id)}} ">{{ recipe.recipe_name }}</a>
+#}
+
+                        <button type="button" class="btn btn-sm m-1 foodcell foodkind-{{cat}}" data-toggle="modal" data-target="#recipeModal-{{day.day}}-{{cat}}">{{recipe[0].recipe_name}}</button>
+                        <div class="modal fade" id="recipeModal-{{day.day}}-{{cat}}" tabindex="-1" role="dialog" aria-labelledby="recipeModalLabel-{{day.day}}-{{cat}}" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="recipeModalLabel-{{day.day}}-{{cat}}">
+                                            {{recipe[0].recipe_name}}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary btn-sm m-1" data-dismiss="modal">Close</button>
+                                        <a class="btn btn-primary btn-sm m-1" href="{{ recipe[0].recipe_url }}">Web</a>
+                                        <a class="btn btn-warning btn-sm m-1" href="{{ url_for('events.update_event', event_id=recipe[1].id) }}">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% endif %}
+                    {% endfor %}
+
+                </div>
+                </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

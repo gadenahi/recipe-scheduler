@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="new-recipe">
+        <a class="btn btn-info" href=" {{ url_for('categories.new_recipe', category_id=category_id) }} ">Create New Recipe</a>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-cat-{{category_id}}">Delete Category</button>
+        <div class="modal fade" id="deleteModal-cat-{{category_id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-cat-{{category_id}}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel-cat-{{category_id}}">Delete Category?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <form action="{{ url_for('categories.delete_category', category_id=category_id) }}" method="POST">
+                            <input class="btn btn-danger" type="submit" value="Delete">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="recipes row flex-wrap">
+        {% for recipe in recipes_list %}
+{#        <div class="recipe col-md-3"> #}
+{#            <div class="recipe_title">{{recipe.recipe_name}}</div> #}
+            <button type="button" class="col-md-3 btn btn-primary category" data-toggle="modal" data-target="#recipeModal-{{recipe.id}}">{{recipe.recipe_name}}</button>
+            <div class="modal fade" id="recipeModal-{{recipe.id}}" tabindex="-1" role="dialog" aria-labelledby="recipeModalLabel-{{recipe.id}}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="recipeModalLabel-{{recipe.id}}">
+                                {{recipe.recipe_name}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm m-1" data-dismiss="modal">Close</button>
+                            <a class="btn btn-primary btn-sm m-1" href="{{ recipe.recipe_url }}">Web</a>
+                            <a class="btn btn-secondary btn-sm m-1" href="{{ url_for('events.new_event', category_id=recipe.category_id, recipe_id=recipe.id) }}">Add</a>
+                            <a class="btn btn-warning btn-sm m-1" href="{{ url_for('categories.show_recipe', category_id=recipe.category_id, recipe_id=recipe.id) }}">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {#</div>#}
+        {% endfor %}
+    </div>
+
+{#
+    {% for page_num in reports.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+        {% if reports.page == page_num %}
+            <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+        {% else%}
+            <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+    {% else %}
+        ...
+    {% endif %}
+    {% endfor %}
+#}
+
+{% endblock content %}

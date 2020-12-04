@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="new-category">
+        <a class="btn btn-info" href=" {{ url_for('categories.new_category') }} ">Create New Category</a>
+    </div>
+    <div class="categories">
+        {% for category in categories_list %}
+            <a class="btn btn-primary col-md-3 col-3 category" href=" {{ url_for('categories.show_recipes', category_id=category.id) }} ">{{category.category_name}}</a>
+        {% endfor %}
+    </div>
+
+{#
+    {% for page_num in reports.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+        {% if reports.page == page_num %}
+            <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+        {% else%}
+            <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+    {% else %}
+        ...
+    {% endif %}
+    {% endfor %}
+#}
+
+{% endblock content %}

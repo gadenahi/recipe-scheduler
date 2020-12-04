@@ -1,0 +1,109 @@
+{% if current_user.is_authenticated %}
+<form name="myForm" action="{{ url_for('main.home') }}" method="post" id="submit-form-group">
+{#    <div class="content-section"> #}
+        {% if group_title %}
+{#        <legend class="border-bottom mb-4">{{group_title}}</legend> #}
+        <button type="button" class="btn btn-info btn-block" data-toggle="collapse" data-target="#submenu-group">
+            {{ group_title }}</button>
+        <div id="submenu-group" class="collapse">
+
+            {% for i in user_list%}
+                {% if i.id == select_group %}
+                    <input type="radio" checked="checked" name="group_options" id="option-{{i.id}}" value="{{i.id}}"> {{i.group_name}} </input><br>
+                {% else %}
+                    <input type="radio" name="group_options" id="option-{{i.id}}" value="{{i.id}}"> {{i.group_name}} </input><br>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        {% else %}
+                {% for i in user_list%}
+                    {% if i.id == select_group %}
+                        <legend class="mb-4">Current Group: {{i.group_name}}</legend>
+                    {% endif %}
+                {% endfor %}
+
+        {% endif%}
+{#    </div> #}
+
+</form>
+    {% if sub_form %}
+
+        <form method="POST" action="" enctype="multipart/form-data">
+<!-- need to receive the submission below-->
+{#        <div class="content-section"> #}
+            {{ sub_form.hidden_tag() }}
+            <button type="button" class="btn btn-info btn-block" data-toggle="collapse" data-target="#submenu-random">
+            Random Select</button>
+            <div id="submenu-random" class="collapse">
+            <fieldset class="form-group">
+{#                <legend class="border-bottom mb-4"> Random Select</legend> #}
+
+                    <div class="form-group">
+                        {{ sub_form.event_date.label(class="form-control-label") }}
+{#                        {% if sub_form.event_date.errors %}
+                            {{ sub_form.event_date(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in sub_form.event_date.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}  #}
+                            {{ sub_form.event_date(class="form-control", type="month") }}
+{#                        {% endif %} #}
+                    </div>
+                    <div class="form-group container">
+                        <div class="row">
+                        {{ sub_form.event_type.label(class="form-control-label") }}
+                        </div>
+                        <div class="border row sub-menu-group">
+                        {% if sub_form.event_type.errors %}
+                            {{ sub_form.event_type(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in sub_form.event_type.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {% for s in sub_form.event_type %}
+                                <div class="form-check form-inline">
+                                {{ s(class="form-check-input") }} {{ s.label(class="form-check-label") }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group container">
+                        <div class="row">
+                        {{ sub_form.categories.label(class="form-control-label") }}
+                        </div>
+                        <div class="border row sub-menu-categories">
+                            {% if sub_form.categories.errors %}
+                            {{ sub_form.categories(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in sub_form.categories.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+{#                            <div class="form-control"> #}
+                            {% for s in sub_form.categories %}
+                            <div class="form-check form-inline">
+                                {{ s(class="form-check-input") }} {{ s.label(class="form-check-label") }}
+                            </div>
+                            {% endfor %}
+{#                            </div> #}
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+            </fieldset>
+            <div class="form-group">
+                {{ sub_form.submit(class="btn btn-outline-info") }}
+            </div>
+            </div>
+{#        </div> #}
+        </form>
+    {% endif %}
+{% endif %}
