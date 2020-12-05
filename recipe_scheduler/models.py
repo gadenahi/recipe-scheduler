@@ -117,7 +117,7 @@ class Recipe(db.Model):
     """
     __table_name__ = 'recipe'
     id = db.Column(db.Integer, primary_key=True)
-    recipe_name = db.Column(db.String(30), unique=False, nullable=False)
+    recipe_name = db.Column(db.String(100), unique=False, nullable=False)
     recipe_url = db.Column(db.String(2083), unique=False, nullable=False)
     description = db.Column(db.String(200), unique=False, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'),
