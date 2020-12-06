@@ -54,7 +54,7 @@ $(document).ready(function() {
     var select_category = $('.new-recipe-category')
 
 //    select_category.on('change', function(e){
-    select_category.on('blur', function(e){
+    select_category.change(function(e){
 
 //        getUpdateSettings();
         e.preventDefault();
