@@ -50,7 +50,8 @@ $(window).on("load", function() {
 })
 
 
-$(document).ready(function() {
+//$(document).ready(function() {
+$(window).on("load", function() {
     var select_category = $('.new-recipe-category')
 
 //    select_category.on('change', function(e){
