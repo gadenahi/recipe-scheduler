@@ -109,6 +109,10 @@ table {
     background-color: yellow;
   }
 
+  .new-recipe-category {
+    cursor: pointer;
+  }
+
     td {
     height: 100px;
     }
