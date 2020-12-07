@@ -55,10 +55,10 @@ $(window).on("load", function() {
     var select_category = $('.new-recipe-category')
 
 //    select_category.on('change', function(e){
-    select_category.change(function(e){
+    select_category.change(function(){
 
 //        getUpdateSettings();
-        e.preventDefault();
+//        e.preventDefault();
         var count = $('.new-recipe').children().length
         for (var i=0; i<count; i++) {
             var recipe = $('.new-recipe option:eq(' + i + ')');
