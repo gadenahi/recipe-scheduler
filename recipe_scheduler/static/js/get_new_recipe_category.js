@@ -38,78 +38,61 @@ $(window).on("load", function() {
     for (var i=0; i<count; i++) {
         var recipe = $('.new-recipe option:eq(' + i + ')');
         if (cat === recipe.attr('data-category')) {
-            recipe.show();
+//            recipe.show();
+              recipe.removeAttr('hidden')
 //            console.log(recipe.attr('value'), rec)
             if (recipe.attr('value') == rec) {
                 recipe.prop('selected',true)
             }
         } else {
-            recipe.hide()
+//            recipe.hide()
+            recipe.attr('hidden','');
         }
     }
 })
 
 
-//
-////$(document).ready(function() {
-//$(window).on("load", function() {
-//    var select_category = $('.new-recipe-category')
-//
-////    select_category.on('change', function(e){
-//    select_category.change(function(){
-//
-////        getUpdateSettings();
-////        e.preventDefault();
-//        var count = $('.new-recipe').children().length
-//        for (var i=0; i<count; i++) {
-//            var recipe = $('.new-recipe option:eq(' + i + ')');
-//            if (select_category.val() === recipe.attr('data-category')) {
+
+//$(document).ready(function() {
+$(window).on("load", function() {
+    var select_category = $('.new-recipe-category')
+
+//    select_category.on('change', function(e){
+    select_category.on('change', function(){
+
+//        getUpdateSettings();
+//        e.preventDefault();
+        var count = $('.new-recipe').children().length
+        for (var i=0; i<count; i++) {
+            var recipe = $('.new-recipe option:eq(' + i + ')');
+            if (select_category.val() === recipe.attr('data-category')) {
 //                recipe.show();
+                recipe.removeAttr('hidden')
+
 //                console.log("show recipe", recipe)
-//            } else {
-//                if (recipe.attr('data-category') === "0") {
+            } else {
+                if (recipe.attr('data-category') === "0") {
 //                    recipe.show()
-//                    recipe.prop('selected',true)
-//
-//                } else{
+                    recipe.removeAttr('hidden')
+                    recipe.prop('selected',true)
+
+                } else{
 //                    recipe.hide()
+                    recipe.attr('hidden','');
 //                    console.log("hide recipe", recipe)
-//                }
-//            }
-//        }
-//    });
-//
-//    // send the data of select box to analytics.html as filter_date
-//    function getUpdateSettings() {
-//        var send = {
-//            select_category: select_category.val()
-//        };
-////        console.log("send", send)
-//        $.getJSON('./new_event', send, function(response) {
-//            console.log("response", response)
-//        })
-//    }
-//} );
-
-var select_category = $('.new-recipe-category')
-
-select_category.on('change', function(){
-
-    var count = $('.new-recipe').children().length
-    for (var i=0; i<count; i++) {
-        var recipe = $('.new-recipe option:eq(' + i + ')');
-        if (select_category.val() === recipe.attr('data-category')) {
-            recipe.show();
-//            console.log("show recipe", recipe)
-        } else {
-            if (recipe.attr('data-category') === "0") {
-                recipe.show()
-                recipe.prop('selected',true)
-
-            } else{
-                recipe.hide()
-//                console.log("hide recipe", recipe)
+                }
             }
         }
+    });
+
+    // send the data of select box to analytics.html as filter_date
+    function getUpdateSettings() {
+        var send = {
+            select_category: select_category.val()
+        };
+//        console.log("send", send)
+        $.getJSON('./new_event', send, function(response) {
+            console.log("response", response)
+        })
     }
-})
+} );
