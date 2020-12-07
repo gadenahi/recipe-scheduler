@@ -55,7 +55,8 @@ $(window).on("load", function() {
     var select_category = $('.new-recipe-category')
 
 //    select_category.on('change', function(e){
-    select_category.change(function(){
+//    select_category.change(function(){
+    select_category.click(function(){
 
 //        getUpdateSettings();
 //        e.preventDefault();
