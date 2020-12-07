@@ -55,8 +55,7 @@ $(window).on("load", function() {
     var select_category = $('.new-recipe-category')
 
 //    select_category.on('change', function(e){
-//    select_category.change(function(){
-    select_category.click(function(){
+    select_category.change(function(){
 
 //        getUpdateSettings();
 //        e.preventDefault();
@@ -65,12 +64,15 @@ $(window).on("load", function() {
             var recipe = $('.new-recipe option:eq(' + i + ')');
             if (select_category.val() === recipe.attr('data-category')) {
                 recipe.show();
+                console.log("show recipe", recipe)
             } else {
                 if (recipe.attr('data-category') === "0") {
                     recipe.show()
                     recipe.prop('selected',true)
+
                 } else{
                     recipe.hide()
+                    console.log("hide recipe", recipe)
                 }
             }
         }
