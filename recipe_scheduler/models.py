@@ -141,7 +141,7 @@ class Category(db.Model):
     """
     __table_name__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
-    category_name = db.Column(db.String(30), unique=True, nullable=False)
+    category_name = db.Column(db.String(30), unique=False, nullable=False)
     recipes = db.relationship('Recipe', backref='category', lazy=True)
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'),
                             nullable=False)
