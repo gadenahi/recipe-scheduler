@@ -93,7 +93,7 @@ $(window).on("load", function() {
 
 var select_category = $('.new-recipe-category')
 
-select_category.change(function(){
+select_category.on('change', function(){
 
     var count = $('.new-recipe').children().length
     for (var i=0; i<count; i++) {
