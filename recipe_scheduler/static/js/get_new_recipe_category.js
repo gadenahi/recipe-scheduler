@@ -37,24 +37,34 @@ $(window).on("load", function() {
     var count = $('.new-recipe').children().length
     for (var i=0; i<count; i++) {
         var recipe = $('.new-recipe option:eq(' + i + ')');
-        if (cat === recipe.attr('data-category')) {
+        var wrap = recipe.parents()
+        if (cat === "0" && cat === recipe.attr('data-category')) {
+                recipe.prop('selected',true)
+        }
+        else if (cat === recipe.attr('data-category')) {
 //            recipe.show();
-              recipe.removeAttr('hidden')
+//              recipe.removeAttr('hidden')
+              if (wrap.hasClass('wrap') == true) {
+                  recipe.unwrap()
+              }
 //            console.log(recipe.attr('value'), rec)
             if (recipe.attr('value') == rec) {
                 recipe.prop('selected',true)
             }
         } else {
 //            recipe.hide()
-            recipe.attr('hidden','');
+//            recipe.attr('hidden','');
+            if (wrap.hasClass('wrap') == false) {
+                recipe.wrap('<span class="wrap">')
+            }
         }
     }
 })
 
 
 
-//$(document).ready(function() {
-$(window).on("load", function() {
+$(document).ready(function() {
+//$(window).on("load", function() {
     var select_category = $('.new-recipe-category')
 
 //    select_category.on('change', function(e){
@@ -65,21 +75,32 @@ $(window).on("load", function() {
         var count = $('.new-recipe').children().length
         for (var i=0; i<count; i++) {
             var recipe = $('.new-recipe option:eq(' + i + ')');
+            var wrap = recipe.parents()
             if (select_category.val() === recipe.attr('data-category')) {
 //                recipe.show();
-                recipe.removeAttr('hidden')
-
+//                recipe.removeAttr('hidden')
+               if (wrap.hasClass('wrap') == true) {
+                  console.log(wrap)
+                  recipe.unwrap()
+               }
 //                console.log("show recipe", recipe)
             } else {
                 if (recipe.attr('data-category') === "0") {
 //                    recipe.show()
-                    recipe.removeAttr('hidden')
+//                    recipe.removeAttr('hidden')
+                  if (wrap.hasClass('wrap') == true) {
+                      recipe.unwrap()
+                  }
                     recipe.prop('selected',true)
 
                 } else{
 //                    recipe.hide()
-                    recipe.attr('hidden','');
+//                    recipe.attr('hidden','');
+                    if (wrap.hasClass('wrap') == false) {
+                    recipe.wrap('<span class="wrap">')
 //                    console.log("hide recipe", recipe)
+
+                    }
                 }
             }
         }
