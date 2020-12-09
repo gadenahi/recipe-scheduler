@@ -13,7 +13,7 @@ class BaseCalendarMixin:
     week_names = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
 
     def setup_calendar(self):
-        """内部カレンダーの設定処理
+        """
         Instance the calender.Calender class
         """
         self._calendar = calendar.Calendar(self.first_weekday)
@@ -76,11 +76,13 @@ class MonthCalendarMixin(BaseCalendarMixin):
 
     def get_month_schedules(self, start, end, days, group):
         check_event = Event.query.filter(
-            Event.event_date.between(start, end)).filter_by(group_id=group).all()
+            Event.event_date.between(start, end)).filter_by(
+            group_id=group).all()
 
         # events_list = [c.to_dict() for c in check_event]
         # print(events_list)
-        day_schedules = {day: {0: None, 1:None, 2:None} for week in days for day in week}
+        day_schedules = {day: {0: None, 1: None, 2: None} for week in days
+                         for day in week}
         # for e in events_list:
         #     r = Recipe.query.filter_by(id=e["recipe_id"]).first()
         #     if e["event_type"] == 0:
@@ -133,7 +135,6 @@ class MonthCalendarMixin(BaseCalendarMixin):
 
 
 class MonthCalendar(MonthCalendarMixin):
-
     def get_context_data(self, year, month, group):
         calendar_context = self.get_month_calendar(year, month, group)
         return calendar_context

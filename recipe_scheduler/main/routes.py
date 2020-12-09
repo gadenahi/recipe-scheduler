@@ -10,7 +10,7 @@ from recipe_scheduler.events.forms import RandomEventForm
 main = Blueprint('main', __name__)
 
 
-# @main.route('/')
+@main.route('/', methods=['GET', 'POST'])
 @main.route('/home', methods=['GET', 'POST'])
 @main.route('/home/<int:year>/<int:month>', methods=['GET', 'POST'])
 @login_required
@@ -22,7 +22,6 @@ def home(year=None, month=None):
     sub_form.categories.choices = [(r.id, r.category_name) for r in categories]
 
     if sub_form.validate_on_submit():
-        print(sub_form.categories.data)
         if not sub_form.event_date.data or not sub_form.event_type.data or not sub_form.categories.data:
             flash('Please select each section on random select', 'warning')
         else:
@@ -69,6 +68,8 @@ def home(year=None, month=None):
     # print(context)
 
     user_list = current_user.user_groups
+
+    # print(context['month_day_schedulers'])
 
     return render_template('home.html', context=context, user_list=user_list,
                            select_group=int(select_group), group_title="Groups",

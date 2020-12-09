@@ -1,23 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div>
-        <a class="foodlegend foodkind-0">Breakfast</a>
-        <a class="foodlegend foodkind-1">Lunch</a>
-        <a class="foodlegend foodkind-2">Dinner</a>
-    </div>
+
     <div class="calendar-title">
-{#
-        <a href="{{ url_for('main.month_view', year=context.month_previous.year,
-        month=context.month_previous.month)}}"> << </a>
-        {{ context.month_current.month}} / {{ context.month_current.year }}
-        <a href="{{ url_for('main.month_view', year=context.month_next.year,
-        month=context.month_next.month)}}"> >> </a>
-#}
         <a href="{{ url_for('main.home', year=context.month_previous.year,
         month=context.month_previous.month)}}"> << </a>
         {{ context.month_current.month}} / {{ context.month_current.year }}
         <a href="{{ url_for('main.home', year=context.month_next.year,
         month=context.month_next.month)}}"> >> </a>
+        <a class="foodlegend foodkind-0">Breakfast</a>
+        <a class="foodlegend foodkind-1">Lunch</a>
+        <a class="foodlegend foodkind-2">Dinner</a>
     </div>
     <table class="table">
         <thead>
@@ -41,7 +33,6 @@
 <!--                    <a class="nav-item nav-link calendar_day" href="{{ url_for('categories.show_categories') }}">{{ day.day }} </a>-->
                     <a class="nav-item nav-link calendar_day" href="{{ url_for('events.new_event', day=day) }}">{{ day.day }} </a>
                     {% for cat, recipe in schedules.items() %}
-
                         {% if recipe[0] %}
 {#
                         <input type="button" class="foodcell foodkind-{{cat}}" onclick="window.location.href='{{
@@ -60,7 +51,14 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="recipeModalLabel-{{day.day}}-{{cat}}">
-                                            {{recipe[0].recipe_name}}</h5>
+                                            {% if cat == 0 %}
+                                            【Breakfast】{{recipe[0].recipe_name}}
+                                            {% elif cat == 1 %}
+                                            【Lunch】{{recipe[0].recipe_name}}
+                                            {% else %}
+                                            【Dinner】{{recipe[0].recipe_name}}
+                                            {% endif %}
+                                        </h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>

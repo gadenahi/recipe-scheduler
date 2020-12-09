@@ -41,10 +41,10 @@ def show_categories():
     :return:
     """
     select_group = current_user.get_current_group()
-    print(select_group)
     all_categories = Category.query.filter_by(group_id=select_group).all()
     categories_list = [c.to_dict() for c in all_categories]
-    categories_list = sorted(categories_list, key=lambda x: x['category_name'], reverse=True)
+    categories_list = sorted(categories_list, key=lambda x: x['category_name'],
+                             reverse=True)
     user_list = current_user.user_groups
     return render_template('show_categories.html',
                            categories_list=categories_list,
@@ -63,7 +63,7 @@ def delete_category(category_id):
     recipe = Recipe.query.filter_by(category_id=category_id).first()
 
     if recipe:
-        flash('The category has recipes, please remove recipe first', 'warning')
+        flash('Please remove recipe first', 'warning')
         all_recipes = Recipe.query.filter_by(category_id=category_id).all()
         recipes_list = [c.to_dict() for c in all_recipes]
         return render_template('show_recipes.html', recipes_list=recipes_list,
@@ -105,7 +105,8 @@ def show_recipes(category_id):
                            select_group=int(select_group))
 
 
-@categories.route('/categories/<int:category_id>/new_recipe', methods=['GET', 'POST'])
+@categories.route('/categories/<int:category_id>/new_recipe', methods=['GET',
+                                                                       'POST'])
 @login_required
 def new_recipe(category_id):
     """
@@ -133,7 +134,8 @@ def new_recipe(category_id):
         db.session.add(recipe)
         db.session.commit()
         flash('The recipe has been created', 'success')
-        return redirect(url_for('categories.new_recipe', category_id=category_id))
+        return redirect(url_for('categories.new_recipe',
+                                category_id=category_id))
     elif request.method == 'GET':
         form.category_id.data = category_id
 
@@ -182,8 +184,8 @@ def show_recipe(category_id, recipe_id):
                            user_list=user_list, select_group=int(select_group))
 
 
-@categories.route('/categories/<int:category_id>/recipes/<int:recipe_id>/delete',
-                  methods=['POST'])
+@categories.route('/categories/<int:category_id>/recipes/<int:recipe_id>/'
+                  'delete', methods=['POST'])
 @login_required
 def delete_recipe(category_id, recipe_id):
     """

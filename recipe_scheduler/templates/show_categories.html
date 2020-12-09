@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="new-category">
-        <a class="btn btn-info" href=" {{ url_for('categories.new_category') }} ">Create New Category</a>
+        <a class="btn btn-info" href=" {{ url_for('categories.new_category') }} ">Create Category</a>
     </div>
     <div class="categories">
         {% for category in categories_list %}

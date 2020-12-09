@@ -15,6 +15,8 @@ def upload_recipe():
     To upload the list of recipes
     :return:
     """
+    select_group = current_user.get_current_group()
+    user_list = current_user.user_groups
 
     if request.method == 'POST':
         f = request.files['send_file']
@@ -66,4 +68,5 @@ def upload_recipe():
     excelformat = url_for(
         'static', filename='recipe_format/' + "recipe_format.xlsx")
     return render_template('upload_recipe.html', title='Upload Recipes',
-                           excelformat=excelformat)
+                           excelformat=excelformat,
+                           user_list=user_list, select_group=int(select_group))

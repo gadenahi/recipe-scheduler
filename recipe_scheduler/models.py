@@ -143,8 +143,7 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(30), unique=False, nullable=False)
     recipes = db.relationship('Recipe', backref='category', lazy=True)
-    group_id = db.Column(db.Integer, db.ForeignKey('group.id'),
-                            nullable=False)
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
 
     def to_dict(self):
         return {
@@ -162,8 +161,8 @@ class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     event_date = db.Column(db.Date, nullable=False)
     event_type = db.Column(db.Integer, nullable=False)
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id', ondelete="CASCADE"),
-                          nullable=False,)
+    recipe_id = db.Column(db.Integer, db.ForeignKey(
+        'recipe.id', ondelete="CASCADE"), nullable=False)
     # user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
 
