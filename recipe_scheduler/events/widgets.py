@@ -1,4 +1,4 @@
-from wtforms.widgets.core import HTMLString, html_params, Markup, escape, text_type
+from wtforms.widgets.core import html_params, Markup, escape, text_type
 from recipe_scheduler.models import Recipe
 
 
@@ -21,16 +21,27 @@ class MySelect(object):
             # added custom data attribute to <option></option>
             if not recipe:
                 # Initial label
-                html.append(self.render_option(0, label='---', selected=False,
-                                               disabled=True,
-                                               data_category=0))
+                html.append(self.render_option(
+                    0,
+                    label='---',
+                    selected=False,
+                    disabled=True,
+                    data_category=0))
             else:
                 if val == select_recipe:
-                    html.append(self.render_option(val, label, selected=True,
-                                                   disabled=False,
-                                                   data_category=recipe.category_id))
+                    html.append(self.render_option(
+                        val,
+                        label,
+                        selected=True,
+                        disabled=False,
+                        data_category=recipe.category_id))
                 else:
-                    html.append(self.render_option(val, label, selected=False, disabled=False, data_category=recipe.category_id))
+                    html.append(self.render_option(
+                        val,
+                        label,
+                        selected=False,
+                        disabled=False,
+                        data_category=recipe.category_id))
         html.append('</select>')
         return Markup(''.join(html))
 
@@ -43,8 +54,8 @@ class MySelect(object):
         if selected:
             options['selected'] = True
 
-        # hiddenをここで追加。
         # if disabled:
         #     options['hidden'] = True
 
-        return Markup('<option %s>%s</option>' % (html_params(**options), escape(label)))
+        return Markup('<option %s>%s</option>' % (
+            html_params(**options), escape(label)))

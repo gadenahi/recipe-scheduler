@@ -1,9 +1,8 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import (BooleanField, PasswordField, StringField, SubmitField,
-                     SelectField, SelectMultipleField, widgets)
-from wtforms.validators import (DataRequired, Email, EqualTo, InputRequired,
-                                Length, ValidationError)
+                     SelectMultipleField, widgets)
+from wtforms.validators import (DataRequired, Email, EqualTo, ValidationError)
 from recipe_scheduler.models import User
 
 

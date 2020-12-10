@@ -9,7 +9,7 @@ if os.path.abspath(os.curdir) not in sys.path:
     sys.path.append(os.path.abspath(os.curdir))
 
 from recipe_scheduler import db, create_app, bcrypt
-from recipe_scheduler.models import User, Group
+from recipe_scheduler.models import User, Group, Role
 
 app = create_app()
 ctx = app.app_context()
@@ -22,6 +22,9 @@ group1 = Group(group_name="default")
 group2 = Group(group_name="group1")
 db.session.add(group1)
 db.session.add(group2)
+
+admin = Role(role_name="admin")
+db.session.add(admin)
 db.session.commit()
 
 password = 'admin'
@@ -35,6 +38,7 @@ db.session.add(user)
 
 user.user_groups.append(group1)
 user.user_groups.append(group2)
+user.roles.append(admin)
 db.session.commit()
 
 # user = User.query.filter_by(id=1).first()

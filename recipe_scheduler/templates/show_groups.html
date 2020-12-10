@@ -1,44 +1,36 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="content-section">
-{#    <form method="POST" action=""> #}
-{#        {{ form.hidden_tag() }}  #}
+    <fieldset class="form-group">
+        <legend class="border-bottom mb-4">{{ title }}</legend>
+        <div class="form-group">
+            {% for group in groups %}
+            <a class="btn btn-warning"
+                href="{{ url_for('users.update_groups', group_id=group['id'] ) }}">{{ group["group_name"] }}</a>
+            {% endfor %}
+        </div>
+    </fieldset>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">{{ title }}</legend>
+            <legend class="border-bottom mb-4">Add Group</legend>
             <div class="form-group">
-{#                {{ form.groups.label(class="form-control-label") }} #}
-{#                <div class="border"> #}
-                    {% for group in groups %}
-{#                    <div class="form-control form-control-lg"> #}
-                        <a class="btn btn-warning" href="{{ url_for('users.update_groups', group_id=group['id'] ) }}">{{ group["group_name"] }}</a>
-{#                    </div> #}
+                {% if form.group_name.errors %}
+                {{ form.group_name(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.group_name.errors %}
+                    <span>{{ error }}</span>
                     {% endfor %}
-{#                </div> #}
+                </div>
+                {% else %}
+                {{ form.group_name(class="form-control form-control-lg") }}
+                {% endif %}
             </div>
         </fieldset>
-{#    </form> #}
-        <form method="POST" action="">
-            {{ form.hidden_tag() }}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Add Group</legend>
-                    <div class="form-group">
-{#                        {{ form.group_name.label(class="form-control-label") }} #}
-                        {% if form.group_name.errors %}
-                            {{ form.group_name(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.group_name.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.group_name(class="form-control form-control-lg") }}
-                        {% endif %}
-                    </div>
-            </fieldset>
-            <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
-            </div>
-        </form>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
 </div>
 
 {% endblock content %}

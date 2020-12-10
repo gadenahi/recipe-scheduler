@@ -6,8 +6,7 @@ from flask_login import current_user
 
 class MyModelView(ModelView):
     def is_accessible(self):
-        # return current_user.is_admin()
-        return True
+        return current_user.is_admin()
 
     def inaccessible_callback(self, name, **kwargs):
         # redirect to login page if user doesn't have access
@@ -16,7 +15,5 @@ class MyModelView(ModelView):
 
 class MyAdminIndexView(AdminIndexView):
     def is_accessible(self):
-        # if current_user.is_authenticated:
-        #     return current_user.is_admin()
-        return True
-    # https://www.youtube.com/watch?v=NYWEf9bZhHQ
+        if current_user.is_authenticated:
+            return current_user.is_admin()

@@ -1,9 +1,8 @@
 from flask import Blueprint, render_template, flash, url_for, redirect, request
 from flask_login import current_user, login_required
 from recipe_scheduler import db
-from recipe_scheduler.models import Recipe, Category, Group
+from recipe_scheduler.models import Recipe, Category
 from recipe_scheduler.categories.forms import RecipeForm, CategoryForm
-from recipe_scheduler.useraccess.access_control import requires_access_level
 
 categories = Blueprint('categories', __name__)
 
@@ -41,10 +40,11 @@ def show_categories():
     :return:
     """
     select_group = current_user.get_current_group()
-    all_categories = Category.query.filter_by(group_id=select_group).all()
+    all_categories = Category.query.filter_by(group_id=select_group)\
+        .order_by(Category.category_name).all()
     categories_list = [c.to_dict() for c in all_categories]
-    categories_list = sorted(categories_list, key=lambda x: x['category_name'],
-                             reverse=True)
+    # categories_list = sorted(categories_list, key=lambda x: x['category_name'])
+
     user_list = current_user.user_groups
     return render_template('show_categories.html',
                            categories_list=categories_list,
@@ -72,11 +72,8 @@ def delete_category(category_id):
         db.session.delete(category)
         db.session.commit()
         flash('Your category has been deleted', 'success')
-        all_categories = Category.query.all()
+        all_categories = Category.query.order_by(Category.category_name).all()
         categories_list = [c.to_dict() for c in all_categories]
-        categories_list = sorted(categories_list,
-                                 key=lambda x: x['category_name'],
-                                 reverse=True)
         return redirect(url_for('categories.show_categories',
                                 categories_list=categories_list
                                 ))
@@ -121,7 +118,7 @@ def new_recipe(category_id):
 
     select_group = current_user.get_current_group()
     user_list = current_user.user_groups
-    categories = Category.query.all()
+    categories = Category.query.order_by(Category.category_name).all()
     form = RecipeForm()
     form.category_id.choices = [(r.id, r.category_name) for r in categories]
     if form.validate_on_submit():
@@ -160,9 +157,8 @@ def show_recipe(category_id, recipe_id):
     select_group = current_user.get_current_group()
     user_list = current_user.user_groups
     recipe = Recipe.query.filter_by(id=recipe_id).first()
-    # recipe = recipe.to_dict()
     form = RecipeForm()
-    categories = Category.query.all()
+    categories = Category.query.order_by(Category.category_name).all()
     form.category_id.choices = [(r.id, r.category_name) for r in categories]
     if form.validate_on_submit():
         recipe.recipe_name = form.recipe_name.data

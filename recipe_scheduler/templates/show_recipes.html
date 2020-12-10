@@ -24,12 +24,9 @@
             </div>
         </div>
         </div>
-
-
         {% for recipe in recipes_list %}
-{#        <div class="recipe col-md-3"> #}
-{#            <div class="recipe_title">{{recipe.recipe_name}}</div> #}
-            <button type="button" class="col-md-3 btn btn-warning category" data-toggle="modal" data-target="#recipeModal-{{recipe.id}}">{{recipe.recipe_name}}</button>
+{#            <div class="recipe_view col-md-3"> #}
+            <button type="button" class="col-md-3 btn btn-warning category-recipe" data-toggle="modal" data-target="#recipeModal-{{recipe.id}}">{{recipe.recipe_name}}</button>
             <div class="modal fade" id="recipeModal-{{recipe.id}}" tabindex="-1" role="dialog" aria-labelledby="recipeModalLabel-{{recipe.id}}" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -41,7 +38,6 @@
                             </button>
                         </div>
                         <div class="modal-footer">
-{#                            <button type="button" class="btn btn-secondary btn-sm m-1" data-dismiss="modal">Close</button> #}
                             <a class="btn btn-primary btn-sm m-1" href="{{ recipe.recipe_url }}">Web</a>
                             <a class="btn btn-secondary btn-sm m-1" href="{{ url_for('events.new_event', category_id=recipe.category_id, recipe_id=recipe.id) }}">Add</a>
                             <a class="btn btn-warning btn-sm m-1" href="{{ url_for('categories.show_recipe', category_id=recipe.category_id, recipe_id=recipe.id) }}">Edit</a>
@@ -49,7 +45,7 @@
                     </div>
                 </div>
             </div>
-        {#</div>#}
+ {#       </div> #}
         {% endfor %}
        </div>
     </div>

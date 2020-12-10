@@ -3,7 +3,6 @@ from wtforms import (DateField, RadioField, SelectField, SubmitField,
                      SelectMultipleField, StringField, widgets)
 from wtforms.validators import DataRequired
 from recipe_scheduler.events.widgets import MySelect
-from recipe_scheduler.models import Recipe, Category
 
 
 class EventForm(FlaskForm):
@@ -32,19 +31,6 @@ class EventForm(FlaskForm):
     )
 
     submit = SubmitField('Post')
-
-    # def __init__(self, category_id=None):
-    #     self.category_id = category_id
-    #     self._set_params(self.category_id)
-    #
-    # def _set_params(self, category_id):
-    #     if not category_id:
-    #         recipes = Recipe.query.all()
-    #     else:
-    #         recipes = Recipe.query.filter_by(category_id=category_id).all()
-    #     categories = Category.query.all()
-    #     self.recipe_id.choices = [(r.id, r.recipe_name) for r in recipes]
-    #     self.category_id.choices = [(r.id, r.category_name) for r in categories]
 
 
 class MultiCheckboxField(SelectMultipleField):

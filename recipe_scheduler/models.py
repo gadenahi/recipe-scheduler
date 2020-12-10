@@ -1,10 +1,8 @@
 """
 Model
 """
-from datetime import datetime
 from flask_login import UserMixin
 from recipe_scheduler import db, login_manager
-from sqlalchemy.orm import relationship, backref
 
 
 @login_manager.user_loader
@@ -23,6 +21,12 @@ user_groups = db.Table(
     db.Column('group_id', db.Integer, db.ForeignKey('group.id'))
 )
 
+users_roles = db.Table(
+    'users_roles',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
+)
+
 
 class User(db.Model, UserMixin):
     """
@@ -32,21 +36,16 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    # groups = db.relationship('Group', secondary='user_groups',
-    #                         backref=db.backref('by_groups', lazy='dynamic'))
-    # groups = db.relationship('Group', secondary='user_groups')
     user_groups = db.relationship('Group', secondary='user_groups',
                                   backref=db.backref('users', lazy='dynamic'))
-
+    roles = db.relationship('Role', secondary='users_roles',
+                                  backref=db.backref('users', lazy='dynamic'))
     current_group = db.Column(db.Integer, nullable=False)
 
     def __init__(self, email=None, password=None, current_group=None):
         self.email = email
         self.password = password
         self.current_group = current_group
-
-    # def __init__(self, current_group=None, **kwargs):
-    #     super(User, self).__init__(**kwargs)
 
     def to_dict(self):
         return {
@@ -61,6 +60,24 @@ class User(db.Model, UserMixin):
     def get_current_group(self):
         return self.current_group
 
+    def is_admin(self):
+        return self.roles[0].role_name == 'admin'
+
+
+class Role(db.Model):
+    """
+    Group model
+    """
+    __table_name__ = 'group'
+    id = db.Column(db.Integer, primary_key=True)
+    role_name = db.Column(db.String(50), unique=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'role_name': self.role_name
+        }
+
 
 class Group(db.Model):
     """
@@ -69,12 +86,9 @@ class Group(db.Model):
     __table_name__ = 'group'
     id = db.Column(db.Integer, primary_key=True)
     group_name = db.Column(db.String(50), unique=False)
-    # users = db.relationship('User', backref='user_group', lazy=True)
-    # users = db.relationship('User', secondary='user_groups',
-    #                         backref=db.backref('by_users', lazy='dynamic'))
-    # users = db.relationship('User', secondary='user_groups')
     events = db.relationship('Event', backref='event_group', lazy=True)
-    categories = db.relationship('Category', backref='category_group', lazy=True)
+    categories = db.relationship(
+        'Category', backref='category_group', lazy=True)
 
     def to_dict(self):
         return {
@@ -83,32 +97,6 @@ class Group(db.Model):
             # 'users': self.users,
             'events': self.events
         }
-
-
-# class UserGroups(db.Model):
-#     """
-#     User - Group Model
-#     """
-#     __table_name__ = 'user_groups'
-#
-#     id = db.Column(db.Integer, primary_key=True)
-#     # user_id = db.Column(db.Integer(),
-#     #                     db.ForeignKey('user.id', ondelete='CASCADE'))
-#     # group_id = db.Column(db.Integer(),
-#     #                     db.ForeignKey('group.id', ondelete='CASCADE'))
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-#     group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
-#     user = relationship(User, backref=backref("user_groups",
-#                                               cascade="all, delete"))
-#     group = relationship(Group, backref=backref("user_groups",
-#                                                 cascade="all, delete"))
-#
-#     def to_dict(self):
-#         return {
-#             'id': self.id,
-#             'user_id': self.user_id,
-#             'group_id': self.group_id
-#         }
 
 
 class Recipe(db.Model):
@@ -122,7 +110,8 @@ class Recipe(db.Model):
     description = db.Column(db.String(200), unique=False, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'),
                             nullable=False)
-    events = db.relationship('Event', backref='recipe', lazy=True, cascade="all")
+    events = db.relationship(
+        'Event', backref='recipe', lazy=True, cascade="all")
 
     def to_dict(self):
         return {
@@ -163,7 +152,6 @@ class Event(db.Model):
     event_type = db.Column(db.Integer, nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey(
         'recipe.id', ondelete="CASCADE"), nullable=False)
-    # user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
 
     def to_dict(self):

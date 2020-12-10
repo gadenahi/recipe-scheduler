@@ -17,15 +17,17 @@ mail = Mail()
 
 
 def admin_control(app):
-    from recipe_scheduler.admincc.admincontrol import MyAdminIndexView, MyModelView
-    from recipe_scheduler.models import User, Group, Event, Recipe, Category
+    from recipe_scheduler.admincc.admincontrol import (
+        MyAdminIndexView, MyModelView)
+    from recipe_scheduler.models import (
+        User, Group, Event, Recipe, Category, Role)
     adminCC = Admin(app, index_view=MyAdminIndexView())
     adminCC.add_view(MyModelView(User, db.session))
     adminCC.add_view(MyModelView(Group, db.session))
     adminCC.add_view(MyModelView(Event, db.session))
     adminCC.add_view(MyModelView(Recipe, db.session))
     adminCC.add_view(MyModelView(Category, db.session))
-    # adminCC.add_view(MyModelView(UserGroups, db.session))
+    adminCC.add_view(MyModelView(Role, db.session))
 
 
 def create_app(config_class=Config):

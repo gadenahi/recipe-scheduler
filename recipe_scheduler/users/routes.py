@@ -1,8 +1,7 @@
 from flask import Blueprint, flash, render_template, redirect, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
-
 from recipe_scheduler import bcrypt, db
-from recipe_scheduler.models import User, Group
+from recipe_scheduler.models import User, Group, Role
 from recipe_scheduler.users.forms import (
     LoginForm, RegistrationForm, UpdateAccountForm, UpdatePasswordForm,
     GroupForm)
@@ -22,33 +21,14 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
 
-    # groups = Group.query.all()
     form = RegistrationForm()
-    # form.id.choices = [(r.id, r.group_name) for r in groups]
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.
                                                         data).decode('utf-8')
-
-        # user = User(
-        #     email=form.email.data,
-        #     password=hashed_password,
-        #     current_group=0
-        # )
-        #
-        # group = Group(group_name="default")
-        # print(group.id)
-        # user.groups.append(group)
-        # # group.users.append(user)
-        # db.session.add(user)
-        # db.session.add(group)
-        # db.session.commit()
-        #
-        # for g in user.groups:
-        #     user.current_group = g.id
-        # db.session.commit()
-
         group = Group(group_name="default")
         db.session.add(group)
+        guest = Role(role_name="guest")
+        db.session.add(guest)
         db.session.commit()
         user = User(
             email=form.email.data,
@@ -57,16 +37,8 @@ def register():
         )
         db.session.add(user)
         user.user_groups.append(group)
-        # group.users.append(user)
-
-        # db.session.add(group)
+        user.roles.append(guest)
         db.session.commit()
-
-        # all = UserGroups.query.all()
-        # print(all)
-        # for i in all:
-        #     print(i.user_id, i.group_id)
-
         flash('Your account has been created', 'success')
         return redirect(url_for('users.login'))
 
@@ -120,22 +92,17 @@ def account():
     :return: if the form is submitted, redirect to user.account, else render
     account.html, title, form
     """
-    # groups = Group.query.all()
-    # user = User.query.filter_by(id=current_user.id).first()
-    # print(current_user.user_groups)
     select_group = current_user.get_current_group()
     user_list = current_user.user_groups
 
     form = UpdateAccountForm()
     if form.validate_on_submit():
         current_user.email = form.email.data
-        # current_user.group_id = form.group_id.data
         db.session.commit()
         flash('Your account has been updated', 'success')
         return redirect(url_for('users.account'))
     elif request.method == 'GET':
         form.email.data = current_user.email
-        # form.group_id.data = current_user.group_id
 
     return render_template('account.html', title='Account', form=form,
                            user_list=user_list, select_group=int(select_group))
@@ -235,7 +202,6 @@ def delete_group(group_id):
     group = Group.query.get_or_404(group_id)
     if group in current_user.user_groups:
         current_user.user_groups.remove(group)
-        # db.session.delete(group)
         db.session.commit()
         flash('Your group has been deleted', 'success')
     else:

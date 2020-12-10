@@ -8,14 +8,14 @@
             <div class="form-group">
                 {{ form.group_name.label(class="form-control-label") }}
                 {% if form.group_name.errors %}
-                    {{ form.group_name(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.group_name.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
+                {{ form.group_name(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.group_name.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
                 {% else %}
-                    {{ form.group_name(class="form-control form-control-lg") }}
+                {{ form.group_name(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
         </fieldset>
@@ -23,9 +23,11 @@
             {{ form.submit(class="btn btn-outline-info") }}
         </div>
     </form>
-        {% if form.group_name.data != "default" %}
-    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal-group">Delete</button>
-    <div class="modal fade" id="deleteModal-group" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-group" aria-hidden="true">
+    {% if form.group_name.data != "default" %}
+    <button type="button" class="btn btn-outline-danger" data-toggle="modal"
+        data-target="#deleteModal-group">Delete</button>
+    <div class="modal fade" id="deleteModal-group" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-group"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

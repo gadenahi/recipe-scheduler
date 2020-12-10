@@ -1,9 +1,9 @@
-body {
+  body {
     background: #fafafa;
     color: #333333;
     margin-top: 5rem;
     height: 100%;
-  }
+    }
 
   h1, h2, h3, h4, h5, h6 {
     color: #444444;
@@ -34,6 +34,14 @@ body {
   }
 
   .category {
+    border: 2px solid white;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    border-radius: 10px;
+  }
+    .category-recipe {
     border: 2px solid white;
   }
 
@@ -130,6 +138,9 @@ body {
     padding: 0;
   }
 
+  .recipe_view {
+    display: inline-block;
+  }
 /*
   .content-section {
     background: #ffffff;
@@ -313,5 +324,9 @@ body {
   }
   .form-control-lg label {
     font-size: 12px;
+  }
+
+  .table .rowcell td {
+    padding: .2rem;
   }
 }

@@ -79,18 +79,8 @@ class MonthCalendarMixin(BaseCalendarMixin):
             Event.event_date.between(start, end)).filter_by(
             group_id=group).all()
 
-        # events_list = [c.to_dict() for c in check_event]
-        # print(events_list)
         day_schedules = {day: {0: None, 1: None, 2: None} for week in days
                          for day in week}
-        # for e in events_list:
-        #     r = Recipe.query.filter_by(id=e["recipe_id"]).first()
-        #     if e["event_type"] == 0:
-        #         day_schedules[e["event_date"]][0] = r
-        #     elif e["event_type"] == 1:
-        #         day_schedules[e["event_date"]][1] = r
-        #     else:
-        #         day_schedules[e["event_date"]][2] = r
 
         for e in check_event:
             r = Recipe.query.filter_by(id=e.recipe_id).first()

@@ -6,7 +6,7 @@
     <div class="border">
         <a class="article" href="{{ excelformat }}">Excel Format</a>
     </div>
-    <br/>
+    <br />
     <form method="POST" action="{{ url_for('uploads.upload_recipe')}}" enctype="multipart/form-data">
         <fieldset class="form-group">
             <legend class="border-bottom mb-4"> {{ title }}</legend>
@@ -20,5 +20,5 @@
             <input type="submit" value="Upload">
         </div>
     </form>
-</div>    
+</div>
 {% endblock content%}
