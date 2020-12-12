@@ -26,7 +26,7 @@
         </div>
         {% for recipe in recipes_list %}
 {#            <div class="recipe_view col-md-3"> #}
-            <button type="button" class="col-md-3 btn btn-warning category-recipe" data-toggle="modal" data-target="#recipeModal-{{recipe.id}}">{{recipe.recipe_name}}</button>
+            <button type="button" class="col-md-5 btn btn-warning category-recipe" data-toggle="modal" data-target="#recipeModal-{{recipe.id}}">{{recipe.recipe_name}}</button>
             <div class="modal fade" id="recipeModal-{{recipe.id}}" tabindex="-1" role="dialog" aria-labelledby="recipeModalLabel-{{recipe.id}}" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

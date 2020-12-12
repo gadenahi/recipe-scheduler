@@ -2,7 +2,8 @@ from flask import Blueprint, render_template, flash, url_for, redirect, request
 from flask_login import current_user, login_required
 from recipe_scheduler import db
 from recipe_scheduler.models import Recipe, Category
-from recipe_scheduler.categories.forms import RecipeForm, CategoryForm
+from recipe_scheduler.categories.forms import RecipeForm, CategoryForm, URLForm
+from recipe_scheduler.categories.utils import parse_html
 
 categories = Blueprint('categories', __name__)
 
@@ -110,6 +111,13 @@ def new_recipe(category_id):
     To post new recipe
     :return:
     """
+    url_form = URLForm()
+    title, description = None, None
+    if url_form.validate_on_submit():
+        html = parse_html(url_form.recipe_url.data)
+        title = html['title']
+        description = html['description']
+
     category = Category.query.filter_by(id=category_id).first()
 
     if current_user.current_group != category.group_id:
@@ -133,12 +141,15 @@ def new_recipe(category_id):
         flash('The recipe has been created', 'success')
         return redirect(url_for('categories.new_recipe',
                                 category_id=category_id))
-    elif request.method == 'GET':
+    if category_id:
         form.category_id.data = category_id
-
+    if title:
+        form.recipe_name.data = title
+    if description:
+        form.description.data = description
     return render_template('new_recipe.html', form=form, title="New Recipe"
                            , user_list=user_list,
-                           select_group=int(select_group))
+                           select_group=int(select_group), url_form=url_form)
 
 
 @categories.route('/categories/<int:category_id>/recipes/<int:recipe_id>',

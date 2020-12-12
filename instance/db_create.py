@@ -40,7 +40,3 @@ user.user_groups.append(group1)
 user.user_groups.append(group2)
 user.roles.append(admin)
 db.session.commit()
-
-# user = User.query.filter_by(id=1).first()
-# for g in user.groups:
-#     user.current_group = g.id

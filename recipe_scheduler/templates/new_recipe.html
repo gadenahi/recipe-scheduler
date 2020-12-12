@@ -1,5 +1,33 @@
 {% extends "layout.html" %}
 {% block content %}
+{% if title == "New Recipe" %}
+<div class="content-section">
+    <form method="POST" action="">
+        {{ url_form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Recipe Info GET</legend>
+            <div class="form-row">
+                <div class="form-group col-lg-12 col-12">
+                    {{ url_form.recipe_url.label(class="form-control-label") }}
+                    {% if url_form.recipe_url.errors %}
+                    {{ url_form.recipe_url(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in url_form.recipe_url.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ url_form.recipe_url(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ url_form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+{% endif %}
 <div class="content-section">
     <form method="POST" action="">
         {{ form.hidden_tag() }}
@@ -8,7 +36,7 @@
             <div class="form-row">
                 <div class="form-group col-lg-6 col-12">
                     {{ form.recipe_name.label(class="form-control-label") }}
-                    {% if form.recipe_name.errors %}
+                    {% if not form.recipe_name and form.recipe_name.errors %}
                     {{ form.recipe_name(class="form-control form-control-lg is-invalid") }}
                     <div class="invalid-feedback">
                         {% for error in form.recipe_name.errors %}
@@ -21,7 +49,7 @@
                 </div>
                 <div class="form-group col-lg-6 col-12">
                     {{ form.recipe_url.label(class="form-control-label") }}
-                    {% if form.recipe_url.errors %}
+                    {% if not form.recipe_url and form.recipe_url.errors %}
                     {{ form.recipe_url(class="form-control form-control-lg is-invalid") }}
                     <div class="invalid-feedback">
                         {% for error in form.recipe_url.errors %}
@@ -36,7 +64,7 @@
             <div class="form-row">
                 <div class="form-group col-lg-6 col-12">
                     {{ form.description.label(class="form-control-label") }}
-                    {% if form.description.errors %}
+                    {% if not form.description and form.description.errors %}
                     {{ form.description(class="form-control form-control-lg is-invalid") }}
                     <div class="invalid-feedback">
                         {% for error in form.description.errors %}
@@ -50,7 +78,7 @@
                 <div class="form-group col-lg-6 col-12">
                     {{ form.category_id.label(class="form-control-label") }}
                     <div class="border">
-                        {% if form.category_id.errors %}
+                        {% if not form.category_id and form.category_id.errors %}
                         {{ form.category_id(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
                             {% for error in form.category_id.errors %}

@@ -41,3 +41,16 @@ class CategoryForm(FlaskForm):
     )
 
     submit = SubmitField('Post')
+
+
+class URLForm(FlaskForm):
+    """
+    Form for URL
+    """
+    recipe_url = StringField(
+        'Recipe URL',
+        validators=[DataRequired()],
+        render_kw={"placeholder": "http://****"}
+    )
+
+    submit = SubmitField('GET')
