@@ -150,13 +150,20 @@ def show_groups():
     form = GroupForm()
 
     if form.validate_on_submit():
-        group = Group(
-            group_name=form.group_name.data,
-        )
-        current_user.user_groups.append(group)
-        db.session.commit()
-        flash('The group has been created', 'success')
-        return redirect(url_for('users.show_groups'))
+        check_group = Group.query.filter_by(group_name=form.group_name.data).all()
+        check_status = False
+        for group in check_group:
+            if group in current_user.user_groups:
+                check_status = True
+                flash('Group name is already exist', 'warning')
+        if check_status is False:
+            group = Group(
+                group_name=form.group_name.data,
+            )
+            current_user.user_groups.append(group)
+            db.session.commit()
+            flash('The group has been created', 'success')
+            return redirect(url_for('users.show_groups'))
 
     groups = [r.to_dict() for r in current_user.user_groups]
 

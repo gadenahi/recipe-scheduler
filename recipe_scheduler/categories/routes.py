@@ -100,7 +100,8 @@ def show_recipes(category_id):
     recipes_list = [c.to_dict() for c in all_recipes]
     return render_template('show_recipes.html', recipes_list=recipes_list,
                            category_id=category_id, user_list=user_list,
-                           select_group=int(select_group))
+                           select_group=int(select_group),
+                           category_name=category.category_name)
 
 
 @categories.route('/categories/<int:category_id>/new_recipe', methods=['GET',

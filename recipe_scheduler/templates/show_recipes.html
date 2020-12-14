@@ -2,9 +2,12 @@
 {% block content %}
     <div class="recipes row">
     <div class="new-recipe">
-        <div>
+        <div class="recipes-title">
+        <legend class="border-bottom mb-4">{{ category_name }}</legend>
         <a class="btn btn-info" href=" {{ url_for('categories.new_recipe', category_id=category_id) }} ">Create Recipe</a>
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-cat-{{category_id}}">Delete Category</button>
+        </div>
+
         <div class="modal fade" id="deleteModal-cat-{{category_id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-cat-{{category_id}}" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -23,7 +26,7 @@
                 </div>
             </div>
         </div>
-        </div>
+
         {% for recipe in recipes_list %}
 {#            <div class="recipe_view col-md-3"> #}
             <button type="button" class="col-md-5 btn btn-warning category-recipe" data-toggle="modal" data-target="#recipeModal-{{recipe.id}}">{{recipe.recipe_name}}</button>

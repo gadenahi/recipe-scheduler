@@ -39,7 +39,8 @@ def new_event():
     if form.validate_on_submit():
         check_event = Event.query.filter(
             Event.event_type == form.event_type.data).filter(
-            Event.event_date == form.event_date.data).all()
+            Event.event_date == form.event_date.data).filter(
+            Event.group_id == current_user.current_group).all()
 
         if form.recipe_id.data == 0 or form.category_id.data == 0:
             flash('Please select valid category or recipe', 'warning')
