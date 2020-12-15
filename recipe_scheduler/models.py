@@ -40,7 +40,8 @@ class User(db.Model, UserMixin):
                                   backref=db.backref('users', lazy='dynamic'))
     roles = db.relationship('Role', secondary='users_roles',
                                   backref=db.backref('users', lazy='dynamic'))
-    current_group = db.Column(db.Integer, nullable=False)
+    current_group = db.Column(db.Integer)
+    groups = db.relationship('Group', backref='groups', lazy=True)
 
     def __init__(self, email=None, password=None, current_group=None):
         self.email = email
@@ -89,13 +90,16 @@ class Group(db.Model):
     events = db.relationship('Event', backref='event_group', lazy=True)
     categories = db.relationship(
         'Category', backref='category_group', lazy=True)
+    created_by = db.Column(db.Integer, db.ForeignKey('user.id'),
+                           nullable=False)
 
     def to_dict(self):
         return {
             'id': self.id,
             'group_name': self.group_name,
-            # 'users': self.users,
-            'events': self.events
+            'events': self.events,
+            'categories': self.categories,
+            'created_by': self.created_by
         }
 
 

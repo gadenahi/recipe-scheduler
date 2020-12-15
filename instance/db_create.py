@@ -18,10 +18,10 @@ db.drop_all()
 db.create_all()
 
 
-group1 = Group(group_name="default")
-group2 = Group(group_name="group1")
-db.session.add(group1)
-db.session.add(group2)
+# group1 = Group(group_name="default")
+# group2 = Group(group_name="group1")
+# db.session.add(group1)
+# db.session.add(group2)
 
 admin = Role(role_name="admin")
 db.session.add(admin)
@@ -32,10 +32,17 @@ hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 user = User(
     email="admin@test.com",
     password=hashed_password,
-    current_group=group1.id
+    # current_group=group1.id
 )
 db.session.add(user)
-
+db.session.commit()
+group1 = Group(group_name="default", created_by=user.id)
+group2 = Group(group_name="group1", created_by=user.id)
+db.session.add(group1)
+db.session.add(group2)
+db.session.commit()
+user.current_group = group1.id
+db.session.commit()
 user.user_groups.append(group1)
 user.user_groups.append(group2)
 user.roles.append(admin)

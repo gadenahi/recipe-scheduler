@@ -25,17 +25,23 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.
                                                         data).decode('utf-8')
-        group = Group(group_name="default")
-        db.session.add(group)
+        # group = Group(group_name="default")
+        # db.session.add(group)
         guest = Role(role_name="guest")
         db.session.add(guest)
         db.session.commit()
         user = User(
             email=form.email.data,
             password=hashed_password,
-            current_group=group.id
+            # current_group=group.id
         )
         db.session.add(user)
+        db.session.commit()
+        group = Group(group_name="default", created_by=user.id)
+        db.session.add(group)
+        db.session.commit()
+        user.current_group = group.id
+        db.session.commit()
         user.user_groups.append(group)
         user.roles.append(guest)
         db.session.commit()
@@ -159,6 +165,7 @@ def show_groups():
         if check_status is False:
             group = Group(
                 group_name=form.group_name.data,
+                created_by=current_user.id
             )
             current_user.user_groups.append(group)
             db.session.commit()
@@ -168,9 +175,8 @@ def show_groups():
     groups = [r.to_dict() for r in current_user.user_groups]
 
     return render_template('show_groups.html', title='Groups List',
-                           groups=groups,
-                           user_list=user_list, select_group=int(select_group),
-                           form=form)
+                           groups=groups, user_list=user_list,
+                           select_group=int(select_group), form=form)
 
 
 @users.route('/groups/<int:group_id>', methods=['GET', 'POST'])
@@ -182,7 +188,8 @@ def update_groups(group_id):
     """
     select_group = current_user.get_current_group()
     user_list = current_user.user_groups
-    group = Group.query.filter_by(id=group_id).first()
+    group = Group.query.filter_by(id=group_id).filter_by(
+        created_by=current_user.id).first()
     form = GroupForm()
 
     if form.validate_on_submit():
@@ -207,8 +214,10 @@ def delete_group(group_id):
     :return: redirect to homepage
     """
     group = Group.query.get_or_404(group_id)
-    if group in current_user.user_groups:
+    # if group in current_user.user_groups:
+    if group.created_by == current_user.id:
         current_user.user_groups.remove(group)
+        db.session.delete(group)
         db.session.commit()
         flash('Your group has been deleted', 'success')
     else:

@@ -36,14 +36,15 @@ def home(year=None, month=None):
             group = current_user.current_group
             context = my_calendar.get_context_data(
                 int(year), int(month), group)
-
             for week in context['month_days']:
                 for date in week:
                     if date.year == int(year) and date.month == int(month):
                         for e_type in sub_form.event_type.data:
                             existing_event = Event.query.filter_by(
                                 event_date=date).filter_by(
-                                event_type=e_type).first()
+                                event_type=e_type).filter(
+                                Event.group_id ==
+                                current_user.current_group).first()
                             if not existing_event:
                                 event = Event(
                                     event_date=date,
@@ -52,7 +53,9 @@ def home(year=None, month=None):
                                     group_id=group
                                 )
                                 db.session.add(event)
-
+                            else:
+                                existing_event.recipe_id = \
+                                    random.choice(list_recipes)["id"]
             db.session.commit()
 
     if not select_group:
@@ -68,5 +71,5 @@ def home(year=None, month=None):
     user_list = current_user.user_groups
 
     return render_template('home.html', context=context, user_list=user_list,
-                           select_group=int(select_group), group_title="Groups",
-                           sub_form=sub_form)
+                           select_group=int(select_group),
+                           group_title="Groups", sub_form=sub_form)
