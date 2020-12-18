@@ -1,8 +1,10 @@
 """
 Model
 """
+from flask import current_app
 from flask_login import UserMixin
 from recipe_scheduler import db, login_manager
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 
 @login_manager.user_loader
@@ -90,8 +92,32 @@ class Group(db.Model):
     events = db.relationship('Event', backref='event_group', lazy=True)
     categories = db.relationship(
         'Category', backref='category_group', lazy=True)
-    created_by = db.Column(db.Integer, db.ForeignKey('user.id'),
-                           nullable=False)
+    created_by = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def get_reset_token(self, expires_sec=1800):
+        """
+        To generate the token with secret_key
+        :param expires_sec: expire time for token. second
+        :return: token
+        """
+        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'group_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        """
+        To verify if the user is in the database with the token
+        :param token: token is provided by get_reset_token()
+        :return: user information
+        """
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            group_id = s.loads(token)['group_id']
+            return Group.query.get(group_id)
+        # except:
+        except:
+            return None
+        # return Group.query.get(group_id)
 
     def to_dict(self):
         return {
@@ -108,6 +134,7 @@ class Recipe(db.Model):
     Recipe Model
     """
     __table_name__ = 'recipe'
+    __searchable__ = ['recipe_name', 'description']
     id = db.Column(db.Integer, primary_key=True)
     recipe_name = db.Column(db.String(100), unique=False, nullable=False)
     recipe_url = db.Column(db.String(2083), unique=False, nullable=False)

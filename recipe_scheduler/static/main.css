@@ -62,6 +62,19 @@
     height: 100%;
   }
 
+  .categories {
+    display: flex;
+    width: 100%;
+    text-align: center;
+    border: 2px solid;
+  }
+
+  .new-category {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
   .recipes {
     display: flex;
     width: 100%;
@@ -85,6 +98,16 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+
+  .search-form {
+    margin-top: 5px;
+    width: 100%;
+  }
+
+  .recipe-search {
+    display: inline-block;
+    width: auto;
   }
 
   table {
@@ -292,6 +315,12 @@
 
   .sub-menu {
     padding-left: 3px;
+  }
+
+  .current-group h5{
+    font-size: 14px;
+    width: 100%;
+    overflow-wrap : break-word;
   }
 
   .main-calendar {

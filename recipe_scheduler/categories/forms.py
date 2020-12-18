@@ -54,3 +54,11 @@ class URLForm(FlaskForm):
     )
 
     submit = SubmitField('GET')
+
+
+class SearchForm(FlaskForm):
+    """
+    Form for search site
+    """
+    search = StringField('Search')
+    submit = SubmitField('GO')

@@ -9,7 +9,13 @@
                {% if i.id == select_group %}
                checked="checked"
                {% endif %}
-               name="group_options" id="option-{{i.id}}" value="{{i.id}}"> {{i.group_name}} </input><br>
+               name="group_options" id="option-{{i.id}}" value="{{i.id}}">
+                {% if i.created_by == current_user.id %}
+                    {{i.group_name}}
+                {% else %}
+                    {{i.group_name}}(shared)
+                {% endif %}
+        </input><br>
         {% endfor %}
     </div>
 </form>
@@ -17,7 +23,11 @@
     {% for i in user_list%}
     {% if i.id == select_group %}
     <div class="current-group">
-        <h5>Current Group: {{i.group_name}}</h5>
+        {% if i.created_by == current_user.id %}
+            <h5>Current Group: {{i.group_name}}</h5>
+        {% else %}
+            <h5>Current Group: {{i.group_name}}(Shared)</h5>
+        {% endif %}
     </div>
     {% endif %}
     {% endfor %}

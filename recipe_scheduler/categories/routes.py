@@ -2,7 +2,8 @@ from flask import Blueprint, render_template, flash, url_for, redirect, request
 from flask_login import current_user, login_required
 from recipe_scheduler import db
 from recipe_scheduler.models import Recipe, Category
-from recipe_scheduler.categories.forms import RecipeForm, CategoryForm, URLForm
+from recipe_scheduler.categories.forms import (RecipeForm, CategoryForm,
+                                               URLForm, SearchForm)
 from recipe_scheduler.categories.utils import parse_html
 
 categories = Blueprint('categories', __name__)
@@ -94,14 +95,24 @@ def show_recipes(category_id):
         flash("Please select the appropriate group", 'error')
         return redirect(url_for('main.home'))
 
+    q = request.args.get('search', '')
+    search_form = SearchForm()
+
+    if q:
+        all_recipes = Recipe.query.filter_by(category_id=category_id).\
+            msearch(q).all()
+        search_form.search.data = q
+    else:
+        all_recipes = Recipe.query.filter_by(category_id=category_id).all()
+
     select_group = current_user.get_current_group()
     user_list = current_user.user_groups
-    all_recipes = Recipe.query.filter_by(category_id=category_id).all()
     recipes_list = [c.to_dict() for c in all_recipes]
     return render_template('show_recipes.html', recipes_list=recipes_list,
                            category_id=category_id, user_list=user_list,
                            select_group=int(select_group),
-                           category_name=category.category_name)
+                           category_name=category.category_name,
+                           search_form=search_form)
 
 
 @categories.route('/categories/<int:category_id>/new_recipe', methods=['GET',

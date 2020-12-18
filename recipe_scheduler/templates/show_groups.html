@@ -6,7 +6,13 @@
         <div class="form-group">
             {% for group in groups %}
             <a class="btn btn-warning"
-                href="{{ url_for('users.update_groups', group_id=group['id'] ) }}">{{ group["group_name"] }}</a>
+               href="{{ url_for('users.update_groups', group_id=group['id'] ) }}">
+                {% if group['created_by'] == current_user.id %}
+                {{ group["group_name"] }}
+                {% else %}
+                {{ group["group_name"]}}(Shared)
+                {% endif %}
+            </a>
             {% endfor %}
         </div>
     </fieldset>

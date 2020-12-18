@@ -1,7 +1,7 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import (BooleanField, PasswordField, StringField, SubmitField,
-                     SelectMultipleField, widgets)
+                     SelectMultipleField, widgets, RadioField)
 from wtforms.validators import (DataRequired, Email, EqualTo, ValidationError)
 from recipe_scheduler.models import User
 
@@ -109,3 +109,32 @@ class GroupForm(FlaskForm):
     submit = SubmitField('Update')
 
 
+class AddGroupForm(FlaskForm):
+    """
+    Form for add group
+    """
+    add_group_type = RadioField(
+        'Type',
+        choices=[("0", "Yes"), ("1", "No")],
+        default="0"
+    )
+    submit = SubmitField('Submit')
+
+
+class RequestInviteForm(FlaskForm):
+    """
+    Form for password reset request
+    """
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Invite')
+
+    def validate_email(self, email):
+        """
+        To validate the email if it is already exist
+        :param email: email on the form
+        :return: if email submitted by form is already exist, return error
+        """
+        email = User.query.filter_by(email=email.data).first()
+        if email is None:
+            raise ValidationError('There is no account with that email.'
+                                  'Request to register first.')
