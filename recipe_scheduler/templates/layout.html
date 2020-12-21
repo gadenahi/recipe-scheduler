@@ -47,10 +47,15 @@
     </header>
     <main role="main" class="container">
         <div class="row">
+        {% if current_user.is_authenticated %}
             <div class="sub-menu col-md-3 col-sm-3 col-3">
                 {% include "sub_menu.html" %}
             </div>
             <div class="main-calendar col-md-9 col-sm-9 col-9">
+                {% else %}
+            <legend class="border-bottom mb-4">Food Recipe Scheduler</legend>
+            <div class="main-calendar col-md-12 col-sm-12 col-12">
+                {% endif %}
                 {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                 {% for category, message in messages %}
@@ -70,11 +75,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-    {#
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="/static/js/handle_table.js"></script>
-    <script src="/static/js/menu_toggle.js"></script>
-#}
+
     <script type=text/javascript src="{{
       url_for('static', filename='/js/get_select_group.js') }}"></script>
     <script type=text/javascript src="{{

@@ -62,6 +62,10 @@
     height: 100%;
   }
 
+  .row legend {
+    text-align: center;
+  }
+
   .categories {
     display: flex;
     width: 100%;

@@ -17,12 +17,6 @@ ctx.push()
 db.drop_all()
 db.create_all()
 
-
-# group1 = Group(group_name="default")
-# group2 = Group(group_name="group1")
-# db.session.add(group1)
-# db.session.add(group2)
-
 admin = Role(role_name="admin")
 db.session.add(admin)
 db.session.commit()
@@ -32,7 +26,6 @@ hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 user = User(
     email="admin@test.com",
     password=hashed_password,
-    # current_group=group1.id
 )
 db.session.add(user)
 db.session.commit()
