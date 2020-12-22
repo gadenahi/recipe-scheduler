@@ -246,10 +246,11 @@ def remove_member(group_id, user_id):
     """
     user = User.query.get_or_404(user_id)
     group = Group.query.get_or_404(group_id)
-    if group.created_by == current_user.id:
+    if group.created_by == current_user.id or user_id == current_user.id:
         group.users.remove(user)
         db.session.commit()
         flash('The member has been deleted', 'success')
+        return redirect(url_for('users.show_groups'))
     else:
         flash('No Authorization')
 
