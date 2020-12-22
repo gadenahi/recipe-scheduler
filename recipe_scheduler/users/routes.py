@@ -182,6 +182,7 @@ def update_groups(group_id):
     To update the groups
     :return:
     """
+
     select_group = current_user.get_current_group()
     user_list = current_user.user_groups
     group = Group.query.filter_by(id=group_id).first()
@@ -189,11 +190,14 @@ def update_groups(group_id):
     invite_form = RequestInviteForm()
     if invite_form.validate_on_submit():
         user = User.query.filter_by(email=invite_form.email.data).first()
-        group = Group.query.filter_by(id=group_id).first()
-        # send email
-        send_invite_email(user.email, group)
-        flash('An email has been sent with instructions to invite', 'info')
-        return redirect(url_for('users.show_groups'))
+        if user not in group.users:
+            group = Group.query.filter_by(id=group_id).first()
+            # send email
+            send_invite_email(user.email, group)
+            flash('An email has been sent with instructions to invite', 'info')
+            return redirect(url_for('users.show_groups'))
+        else:
+            flash('The email is already member', 'info')
     elif form.validate_on_submit():
         group.group_name = form.group_name.data
         db.session.commit()
@@ -267,6 +271,7 @@ def reset_token(email, token):
         flash('That is an invalid token or expired token', 'warning')
         return redirect(url_for('users.login'))
     form = AddGroupForm()
+
     if form.validate_on_submit():
         if form.add_group_type.data == "0":
             user = User.query.filter_by(email=email).first()
@@ -280,6 +285,6 @@ def reset_token(email, token):
                 return redirect(url_for('users.register'))
         else:
             flash('You refused to join %s ' % (group.group_name), 'success')
-            return redirect(url_for('users.home'))
+            return redirect(url_for('main.home'))
     return render_template('attend_group.html',
                            title='Attend Group?', form=form)

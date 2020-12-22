@@ -3,7 +3,7 @@
 <div class="content-section">
     <fieldset class="form-group">
         <legend class="border-bottom mb-4">{{ title }}</legend>
-        <div class="form-group">
+        <div class="form-group groups-list">
             {% for group in groups %}
             <a class="btn btn-warning group-list"
                href="{{ url_for('users.update_groups', group_id=group['id'] ) }}">

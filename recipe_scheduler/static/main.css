@@ -89,6 +89,18 @@
     background-color: skyblue;
   }
 
+  .current-group {
+    text-align: center;
+  }
+
+  .current-group-name {
+    padding: 2px 10px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: skyblue;
+  }
+
   .categories {
     display: flex;
     width: 100%;
@@ -181,6 +193,10 @@
 
   .foodkind-2 {
     background-color: yellow;
+  }
+
+  .groups-list {
+    text-align: left;
   }
 
   .group-list {

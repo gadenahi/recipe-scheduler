@@ -81,4 +81,10 @@ def about():
     Show about
     :return:
     """
-    return render_template('about.html')
+    user_list = None
+    select_group = -1
+    if current_user.is_authenticated:
+        select_group = current_user.get_current_group()
+        user_list = current_user.user_groups
+    return render_template('about.html', user_list=user_list,
+                           select_group=int(select_group))
