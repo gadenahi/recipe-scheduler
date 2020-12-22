@@ -18,18 +18,15 @@ class EventForm(FlaskForm):
         choices=[("0", "Breakfast"), ("1", "Lunch"), ("2", "Dinner")],
         default="0"
     )
-
     category_id = SelectField(
         'Category',
         coerce=int
     )
-
     recipe_id = SelectField(
         'Recipe',
         coerce=int,
         widget=MySelect()
     )
-
     submit = SubmitField('Post')
 
 
@@ -51,5 +48,4 @@ class RandomEventForm(FlaskForm):
         'Categories',
         coerce=int
     )
-
     submit = SubmitField('Random')

@@ -26,15 +26,13 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.
                                                         data).decode('utf-8')
-        # group = Group(group_name="default")
-        # db.session.add(group)
+
         guest = Role(role_name="guest")
         db.session.add(guest)
         db.session.commit()
         user = User(
             email=form.email.data,
             password=hashed_password,
-            # current_group=group.id
         )
         db.session.add(user)
         db.session.commit()
@@ -253,28 +251,6 @@ def remove_member(group_id, user_id):
 
     return redirect(url_for('users.update_groups', group_id=group_id))
 
-# @users.route('/invite_group/<int:group_id>', methods=['GET', 'POST'])
-# @login_required
-# def invite_group(group_id):
-#     """
-#     TO send the email to invite
-#     :return: if authenticated, redirect to homepage
-#     if form is submitted, redirect to user login
-#     At default, render attend_group.html
-#     """
-#     # if current_user.is_authenticated:
-#     #     return redirect(url_for('main.home'))
-#     form = RequestInviteForm()
-#     if form.validate_on_submit():
-#         user = User.query.filter_by(email=form.email.data).first()
-#         group = Group.query.filter_by(id=group_id).first()
-#         # send email
-#         send_invite_email(user.email, group)
-#         flash('An email has been sent with instructions to invite', 'info')
-#         return redirect(url_for('users.show_groups'))
-#     return render_template('invite_group.html',
-#                            title='Invite Group', form=form)
-
 
 @users.route('/invite_group/<email>/<token>', methods=['GET', 'POST'])
 def reset_token(email, token):
@@ -286,8 +262,6 @@ def reset_token(email, token):
     if form is submitted, redirect to login page
     At default, render reset_token.html, with title and form
     """
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('main.home'))
     group = Group.verify_reset_token(token)
     if group is None:
         flash('That is an invalid token or expired token', 'warning')

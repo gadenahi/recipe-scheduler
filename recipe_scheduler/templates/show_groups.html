@@ -5,7 +5,7 @@
         <legend class="border-bottom mb-4">{{ title }}</legend>
         <div class="form-group">
             {% for group in groups %}
-            <a class="btn btn-warning"
+            <a class="btn btn-warning group-list"
                href="{{ url_for('users.update_groups', group_id=group['id'] ) }}">
                 {% if group['created_by'] == current_user.id %}
                 {{ group["group_name"] }}

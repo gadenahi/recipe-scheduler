@@ -41,6 +41,7 @@
     width: 100%;
     border-radius: 10px;
   }
+
   .category-recipe {
     border: 2px solid white;
     overflow: hidden;
@@ -64,6 +65,28 @@
 
   .row legend {
     text-align: center;
+  }
+
+  #submit-form-group {
+    border: 2px solid;
+    border-radius: 5px;
+    text-align: center;
+  }
+/* change radio to button */
+  .radiobutton {
+    display: none;
+  }
+
+  .radio-label {
+    background-color: gray;
+    padding: 2px 10px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .radiobutton:checked + label {
+    background-color: skyblue;
   }
 
   .categories {
@@ -160,6 +183,10 @@
     background-color: yellow;
   }
 
+  .group-list {
+    margin-bottom: 5px;
+  }
+
   td {
     height: 100px;
   }
@@ -175,134 +202,7 @@
   .recipe_view {
     display: inline-block;
   }
-/*
-  .content-section {
-    background: #ffffff;
-    padding: 10px 20px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    margin-bottom: 20px;
-  }
 
-  .article-title {
-    color: #444444;
-  }
-
-  a.article-title:hover {
-    color: #428bca;
-    text-decoration: none;
-  }
-
-  .article-content {
-    white-space: pre-line;
-  }
-
-  .article-img {
-    height: 65px;
-    width: 65px;
-    margin-right: 16px;
-  }
-
-  .article-metadata {
-    padding-bottom: 1px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid #e3e3e3
-  }
-
-  .article-metadata a:hover {
-    color: #333;
-    text-decoration: none;
-  }
-
-  .article-svg {
-    width: 25px;
-    height: 25px;
-    vertical-align: middle;
-  }
-
-  .account-img {
-    height: 125px;
-    width: 125px;
-    margin-right: 20px;
-    margin-bottom: 16px;
-  }
-
-  .account-heading {
-    font-size: 2.5rem;
-  }
-
-  .archive-recent-reports {
-    margin-top: 10px;
-    color: #444444;
-    text-decoration: underline;
-  }
-
-  .archive-month-archive {
-    border: 1px solid #dddddd;
-  }
-
-  .archive-module-body li {
-    display: inline-block;
-  }
-
-  .archive-module-body li a{
-    display: inline-block;
-  }
-
-  .archive-year {
-    cursor: pointer;
-  }
-
-  .archive-module-hide-button {
-    display: none;
-  }
-
-  .archive-month {
-    display: none;
-  }
-
-  .archive-section {
-    background: #ffffff;
-    padding: 5px 10px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
-    margin-bottom: 10px;
-  }
-
-  .archive-img {
-    height: 30px;
-    width: 30px;
-    margin-right: 16px;
-  }
-
-  .archive-title {
-    margin-top: 10px;
-    color: #444444;
-    text-decoration: underline;
-  }
-
-  .filter-date {
-    text-align: right;
-  }
-
-  .table td, .table th {
-    padding: 0px;
-  }
-
-  table tr td {
-  word-break: break-all;
-  }
-
-  .dropdown-menu {
-    background-color: #5f788a;
-    width: 200px;
-
-  }
-  .dropdown-item {
-    color: #cbd5db;
-  }
-
-*/
 @media (max-width: 575px){
 
   body {
@@ -312,6 +212,7 @@
   legend {
     font-size: 14px;
   }
+
   .foodlegend {
     font-size: 14px;
     padding: 1px;
@@ -337,7 +238,7 @@
     z-index: 100;
   }
 
-  .sub-menu-group {
+  .sub-menu-type {
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -358,10 +259,12 @@
   .btn {
     font-size: 14px;
   }
+
   .form-control-lg {
     font-size: 14px;
     padding: .5rem .5rem;
   }
+
   .form-control-lg label {
     font-size: 12px;
   }

@@ -26,7 +26,6 @@ class RecipeForm(FlaskForm):
         'Category',
         coerce=int
     )
-
     submit = SubmitField('Post')
 
 
@@ -39,7 +38,6 @@ class CategoryForm(FlaskForm):
         validators=[DataRequired()],
         render_kw={"placeholder": "Category Name"}
     )
-
     submit = SubmitField('Post')
 
 
@@ -52,7 +50,6 @@ class URLForm(FlaskForm):
         validators=[DataRequired()],
         render_kw={"placeholder": "http://****"}
     )
-
     submit = SubmitField('GET')
 
 

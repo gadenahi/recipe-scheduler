@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% if current_user.is_authenticated %}
+    <legend class="border-bottom mb-4">Food Recipe Scheduler</legend>
+    {% endif %}
+    <p>You can schedule the food recipe by breakfast, lunch and dinner
+    and it can be shared within the group</p>
+{% endblock content %}

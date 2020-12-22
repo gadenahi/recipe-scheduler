@@ -73,3 +73,12 @@ def home(year=None, month=None):
     return render_template('home.html', context=context, user_list=user_list,
                            select_group=int(select_group),
                            group_title="Groups", sub_form=sub_form)
+
+
+@main.route('/about')
+def about():
+    """
+    Show about
+    :return:
+    """
+    return render_template('about.html')

@@ -1,4 +1,4 @@
-import os, datetime
+import datetime
 from flask import Blueprint, render_template, flash, url_for, redirect, request
 from flask_login import current_user, login_required
 from recipe_scheduler import db

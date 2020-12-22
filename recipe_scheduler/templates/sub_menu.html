@@ -1,21 +1,23 @@
 {% if current_user.is_authenticated %}
     {% if group_title %}
 <form name="myForm" action="{{ url_for('main.home') }}" method="post" id="submit-form-group">
-    <button type="button" class="btn btn-info btn-block" data-toggle="collapse" data-target="#submenu-group">
-        {{ group_title }}</button>
-    <div id="submenu-group" class="collapse">
+    <h5>{{group_title}}</h5>
+    <div id="submenu-group" class="">
         {% for i in user_list%}
         <input type="radio"
                {% if i.id == select_group %}
                checked="checked"
                {% endif %}
-               name="group_options" id="option-{{i.id}}" value="{{i.id}}">
-                {% if i.created_by == current_user.id %}
-                    {{i.group_name}}
-                {% else %}
-                    {{i.group_name}}(shared)
-                {% endif %}
-        </input><br>
+               name="group_options" id="option-{{i.id}}" value="{{i.id}}" class="radiobutton" />
+
+        <label for="option-{{i.id}}" class="radio-label">
+        {% if i.created_by == current_user.id %}
+            {{i.group_name}}
+        {% else %}
+            {{i.group_name}}(shared)
+        {% endif %}
+        </label>
+        <br>
         {% endfor %}
     </div>
 </form>
@@ -37,7 +39,7 @@
 <form method="POST" action="" enctype="multipart/form-data">
     {{ sub_form.hidden_tag() }}
     <button type="button" class="btn btn-info btn-block" data-toggle="collapse" data-target="#submenu-random">
-        Random Select</button>
+        Random</button>
     <div id="submenu-random" class="collapse">
         <fieldset class="form-group">
             <div class="form-group">
@@ -48,7 +50,7 @@
                 <div class="row">
                     {{ sub_form.event_type.label(class="form-control-label") }}
                 </div>
-                <div class="border row sub-menu-group">
+                <div class="border row sub-menu-type">
                     {% if sub_form.event_type.errors %}
                     {{ sub_form.event_type(class="form-control is-invalid") }}
                     <div class="invalid-feedback">

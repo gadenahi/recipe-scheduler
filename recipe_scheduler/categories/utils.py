@@ -18,9 +18,6 @@ def parse_html(url):
         title = soup.find('title')
         if descriptions:
             description = descriptions.get('content')
-        #
-        # if not description or not title:
-        #     print("check error", r.id, r.recipe_url)
 
         return {'title': title.text, 'description': description}
     except urllib.error.URLError as e:
