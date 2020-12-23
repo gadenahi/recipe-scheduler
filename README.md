@@ -21,3 +21,6 @@ This site provides:
 
 ## Run
 run.py
+
+## To deploy on Heroku
+heroku config:set SENDGRID_API_KEY={your password}

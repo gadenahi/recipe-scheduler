@@ -54,7 +54,7 @@
     </div>
     {% endif %}
 
-    <legend class="border-bottom mb-4">Remove member</legend>
+    <legend class="border-bottom mb-4">Members</legend>
     {% for member in members %}
     {% if member.id != group.created_by %}
         <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deletegroupModal-{{member.id}}">{{member.email}}</button>

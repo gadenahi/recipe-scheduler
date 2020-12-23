@@ -193,7 +193,8 @@ def update_groups(group_id):
         if user not in group.users:
             group = Group.query.filter_by(id=group_id).first()
             # send email
-            send_invite_email(user.email, group)
+            # send_invite_email(user.email, group)
+            send_invite_email(invite_form.email.data, group)
             flash('An email has been sent with instructions to invite', 'info')
             return redirect(url_for('users.show_groups'))
         else:
@@ -258,6 +259,7 @@ def remove_member(group_id, user_id):
 
 
 @users.route('/invite_group/<email>/<token>', methods=['GET', 'POST'])
+@login_required
 def reset_token(email, token):
     """
     To reset the password with token provided by email

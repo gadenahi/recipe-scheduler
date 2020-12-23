@@ -128,13 +128,13 @@ class RequestInviteForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Invite')
 
-    def validate_email(self, email):
-        """
-        To validate the email if it is already exist
-        :param email: email on the form
-        :return: if email submitted by form is already exist, return error
-        """
-        email = User.query.filter_by(email=email.data).first()
-        if email is None:
-            raise ValidationError('There is no account with that email.'
-                                  'Request to register first.')
+    # def validate_email(self, email):
+    #     """
+    #     To validate the email if it is already exist
+    #     :param email: email on the form
+    #     :return: if email submitted by form is already exist, return error
+    #     """
+    #     email = User.query.filter_by(email=email.data).first()
+    #     if email is None:
+    #         raise ValidationError('There is no account with that email.'
+    #                               'Request to register first.')

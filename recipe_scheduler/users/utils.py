@@ -23,6 +23,9 @@ def send_invite_email(email, group):
     link: {url_for('users.reset_token', token=token, email=email,
                    _external=True)}
     if you did not request then simply ignore this email or ask the sender
+    ####
+    Food Recipe Scheduler
+    ####
     '''
     msg.html = (f'''<h4>You are invited to join the group by {current_user.email} 
                 at Food Recipe Scheduler</h4>
@@ -32,5 +35,9 @@ def send_invite_email(email, group):
                                email=email,_external=True)}
                 <p>If you did not request then simply ignore
                  this email or ask the sender</p>
+                <p>####<br/>
+                Food Recipe Scheduler<br/>
+                ####
+                </p> 
     ''')
     mail.send(msg)
