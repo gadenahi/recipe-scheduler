@@ -1,6 +1,7 @@
 import calendar
 from collections import deque
 import datetime
+from datetime import timezone
 import itertools
 from recipe_scheduler.models import Event, Recipe
 
@@ -104,7 +105,7 @@ class MonthCalendarMixin(BaseCalendarMixin):
         self.setup_calendar()
         current_month = self.get_current_month(year, month)
         calendar_data = {
-            'now': datetime.date.today(),
+            'now': datetime.datetime.now().date(),
             'month_days': self.get_month_days(current_month),
             'month_current': current_month,
             'month_previous': self.get_previous_month(current_month),
