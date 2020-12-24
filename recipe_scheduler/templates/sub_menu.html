@@ -9,7 +9,6 @@
                checked="checked"
                {% endif %}
                name="group_options" id="option-{{i.id}}" value="{{i.id}}" class="radiobutton" />
-
         <label for="option-{{i.id}}" class="radio-label">
         {% if i.created_by == current_user.id %}
             {{i.group_name}}
@@ -62,7 +61,7 @@
                     {% else %}
                     {% for s in sub_form.event_type %}
                     <div class="form-check form-inline">
-                        {{ s(class="form-check-input") }} {{ s.label(class="form-check-label") }}
+                        {{ s(class="form-check-input checkbox") }} {{ s.label(class="form-check-label checkbox-label") }}
                     </div>
                     {% endfor %}
                     {% endif %}
@@ -83,7 +82,7 @@
                     {% else %}
                     {% for s in sub_form.categories %}
                     <div class="form-check form-inline">
-                        {{ s(class="form-check-input") }} {{ s.label(class="form-check-label") }}
+                        {{ s(class="form-check-input checkbox") }} {{ s.label(class="form-check-label checkbox-label") }}
                     </div>
                     {% endfor %}
                     {% endif %}

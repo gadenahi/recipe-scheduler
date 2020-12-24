@@ -97,6 +97,34 @@
     background-color: skyblue;
   }
 
+  .checkbox {
+    display: none;
+  }
+
+  .checkbox-label {
+    background-color: gray;
+    padding: 2px 5px;
+    margin: 1px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .checkbox:checked + label {
+    background-color: skyblue;
+  }
+
+
+  .sub-menu-type {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sub-menu-categories {
+    display: flex;
+    flex-direction: column;
+  }
+
   .current-group {
     text-align: center;
   }
@@ -227,7 +255,7 @@
     display: inline-block;
   }
 
-@media (max-width: 575px){
+@media (max-width: 768px){
 
   body {
     font-size: 14px;
@@ -268,7 +296,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding-left: 20px;
+    padding-left: 0px;
   }
 
   .sub-menu-categories {
@@ -277,7 +305,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding-left: 20px;
+    padding-left: 0px;
   }
 
   .btn {
