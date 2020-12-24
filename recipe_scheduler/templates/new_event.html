@@ -31,7 +31,7 @@
                     {% else %}
                     <div class="form-control form-control-lg">
                         {% for s in form.event_type %}
-                        {{ s }} {{ s.label }}
+                        {{ s(class='radiobutton') }} {{ s.label(class='radio-event-label') }}
                         {% endfor %}
                     </div>
                     {% endif %}

@@ -70,7 +70,7 @@ def home(year=None, month=None):
     context = my_calendar.get_context_data(year, month, select_group)
     user_list = current_user.user_groups
 
-    print(context)
+    # print(context)
     return render_template('home.html', context=context, user_list=user_list,
                            select_group=int(select_group),
                            group_title="Groups", sub_form=sub_form)

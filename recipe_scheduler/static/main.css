@@ -77,6 +77,14 @@
     display: none;
   }
 
+  .radio-event-label {
+    background-color: gray;
+    padding: 2px 2px;
+    width: 30%;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
   .radio-label {
     background-color: gray;
     padding: 2px 10px;
