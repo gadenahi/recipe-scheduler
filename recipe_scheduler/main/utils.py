@@ -104,11 +104,11 @@ class MonthCalendarMixin(BaseCalendarMixin):
         """
         self.setup_calendar()
         current_month = self.get_current_month(year, month)
-        localtime = time.localtime()
+        # localtime = time.localtime()
         calendar_data = {
-            # 'now': datetime.datetime.now(datetime.timezone(
-            # datetime.timedelta(hours=-8))).date(),
-            'now': datetime.date(year=localtime.tm_year, month=localtime.tm_mon, day=localtime.tm_mday),
+            'now': datetime.datetime.now(datetime.timezone(
+            datetime.timedelta(hours=-8))).date(),
+            # 'now': datetime.date(year=localtime.tm_year, month=localtime.tm_mon, day=localtime.tm_mday),
             'month_days': self.get_month_days(current_month),
             'month_current': current_month,
             'month_previous': self.get_previous_month(current_month),
