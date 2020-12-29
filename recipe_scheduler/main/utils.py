@@ -107,9 +107,9 @@ class MonthCalendarMixin(BaseCalendarMixin):
         # localtime = time.localtime()
         print(datetime.datetime.now())
         calendar_data = {
-            'now': datetime.datetime.now().date(),
-            # 'now': datetime.datetime.now(datetime.timezone(
-            #     datetime.timedelta(hours=-8))).date(),
+            # 'now': datetime.datetime.now().date(),
+            'now': datetime.datetime.now(datetime.timezone(
+                datetime.timedelta(hours=-8))).date(),
             # 'now': datetime.date(year=localtime.tm_year, month=localtime.tm_mon, day=localtime.tm_mday),
             'month_days': self.get_month_days(current_month),
             'month_current': current_month,
