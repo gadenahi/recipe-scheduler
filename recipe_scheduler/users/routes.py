@@ -1,3 +1,4 @@
+import pytz
 from flask import Blueprint, flash, render_template, redirect, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from recipe_scheduler import bcrypt, db
@@ -28,11 +29,13 @@ def register():
                                                         data).decode('utf-8')
 
         guest = Role(role_name="guest")
+        timezone_id = pytz.all_timezones.index('US/Pacific')
+        print(timezone_id)
         db.session.add(guest)
         db.session.commit()
         user = User(
             email=form.email.data,
-            password=hashed_password,
+            password=hashed_password
         )
         db.session.add(user)
         db.session.commit()
@@ -40,6 +43,7 @@ def register():
         db.session.add(group)
         db.session.commit()
         user.current_group = group.id
+        user.current_tz = timezone_id
         db.session.commit()
         user.user_groups.append(group)
         user.roles.append(guest)
@@ -101,13 +105,16 @@ def account():
     user_list = current_user.user_groups
 
     form = UpdateAccountForm()
+    form.current_tz.choices = [(i, v) for i, v in enumerate(pytz.all_timezones)]
     if form.validate_on_submit():
         current_user.email = form.email.data
+        current_user.current_tz = form.current_tz.data
         db.session.commit()
         flash('Your account has been updated', 'success')
         return redirect(url_for('users.account'))
     elif request.method == 'GET':
         form.email.data = current_user.email
+        form.current_tz.data = current_user.current_tz
 
     return render_template('account.html', title='Account', form=form,
                            user_list=user_list, select_group=int(select_group))

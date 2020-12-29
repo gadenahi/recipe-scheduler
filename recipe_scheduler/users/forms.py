@@ -1,7 +1,7 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import (BooleanField, PasswordField, StringField, SubmitField,
-                     SelectMultipleField, widgets, RadioField)
+                     SelectMultipleField, widgets, RadioField, SelectField)
 from wtforms.validators import (DataRequired, Email, EqualTo, ValidationError)
 from recipe_scheduler.models import User
 
@@ -63,6 +63,10 @@ class UpdateAccountForm(FlaskForm):
     email = StringField(
         'Email',
         validators=[DataRequired(), Email()]
+    )
+    current_tz = SelectField(
+        'TimeZone',
+        coerce=int
     )
     submit = SubmitField('Update')
 

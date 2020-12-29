@@ -1,8 +1,6 @@
-import calendar
+import calendar, datetime, time, itertools, pytz
 from collections import deque
-import datetime, time
-from datetime import timezone
-import itertools
+from flask_login import current_user
 from recipe_scheduler.models import Event, Recipe
 
 
@@ -105,11 +103,18 @@ class MonthCalendarMixin(BaseCalendarMixin):
         self.setup_calendar()
         current_month = self.get_current_month(year, month)
         # localtime = time.localtime()
-        print(datetime.datetime.now())
+
+        timezone = pytz.timezone(pytz.all_timezones[current_user.current_tz])
+        timenow = datetime.datetime.now()
+        localtimenow = timenow.astimezone(timezone)
+        localtimenow = timezone.normalize(localtimenow)
+        # print(localtimenow)
+        # print(localtimenow.date())
         calendar_data = {
+            'now': localtimenow.date(),
             # 'now': datetime.datetime.now().date(),
-            'now': datetime.datetime.now(datetime.timezone(
-                datetime.timedelta(hours=-8))).date(),
+            # 'now': datetime.datetime.now(datetime.timezone(
+            #     datetime.timedelta(hours=-8))).date(),
             # 'now': datetime.date(year=localtime.tm_year, month=localtime.tm_mon, day=localtime.tm_mday),
             'month_days': self.get_month_days(current_month),
             'month_current': current_month,

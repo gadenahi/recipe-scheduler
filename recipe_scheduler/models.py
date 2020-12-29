@@ -44,6 +44,7 @@ class User(db.Model, UserMixin):
                                   backref=db.backref('users', lazy='dynamic'))
     current_group = db.Column(db.Integer)
     groups = db.relationship('Group', backref='groups', lazy=True)
+    current_tz = db.Column(db.Integer, nullable=True)
 
     def __init__(self, email=None, password=None, current_group=None):
         self.email = email
